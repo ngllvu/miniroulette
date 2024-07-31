@@ -5,9 +5,8 @@
 #include "include.h"
 #include "player.h"
 #include "listPlayer.h"
-#include "bet.h"
 
-class Bet;
+
 class Player;
 class ListPlayer;
 class Roulette{
@@ -15,6 +14,11 @@ class Roulette{
         int N;
         ListPlayer *list;
         std::string username, password;
+
+        int const Min = 1, Max = 36;
+        int number, random;
+        double money = 200, bet;
+        char *stop;
     public:
         Roulette();
         Roulette(int N);
@@ -33,8 +37,15 @@ class Roulette{
 
         void saveInformation();
         void printInformation(string name, bool saved);
+        void Profile();
 
-        Roulette mainGame();
+
+        void mainGame();
+        void numbers();
+        void even_odd();
+        void color();
+        void mix();
+
 };
 
 #endif
