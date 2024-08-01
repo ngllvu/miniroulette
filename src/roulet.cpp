@@ -1,7 +1,7 @@
 #include "roulet.h"
 
-Roulette::Roulette(int N){
-    this->N = N;
+Roulette::Roulette(){
+    //this->N = N;
     RegisterMenu();
 }
 Roulette::~Roulette(){
@@ -101,11 +101,11 @@ void Roulette::login(){
 void Roulette::forgot(){
     int option;
     system("cls");
-    cout << "\t\t\t You forgot the password? No Worries \n";
-    cout << "Press 1 to search your id by username " << std::endl;
-    cout << "press 2 to go to the main menu " << std::endl;
-    cout << "\t\t\t Enter your choice :";
-    cin >> option;
+    std::cout << "\t\t\t You forgot the password? No Worries \n";
+    std::cout << "Press 1 to search your id by username " << std::endl;
+    std::cout << "press 2 to go to the main menu " << std::endl;
+    std::cout << "\t\t\t Enter your choice :";
+    std::cin >> option;
     switch (option)
     {
     case 1:
@@ -324,7 +324,7 @@ void Roulette::printInformation(string name, bool saved){
 
 //start game
 void Roulette::mainGame(){
-    char choice;
+    int choice;
     while (true)
     {
         clearSystem();
@@ -338,9 +338,10 @@ void Roulette::mainGame(){
         std::cout << printColor("[2] EVEN/ODD", 33) << std::endl;
         std::cout << printColor("[3] COLOR", 31) << std::endl;
         std::cout << printColor("[4] MIX", 35) << std::endl;
+        std::cout << printColor("[5] QUIT", 32) << std::endl;
         std::cout << std::endl;
         char select = getch();
-        if (!(select < '1' || select > '4')){
+        if (!(select < '1' || select > '5')){
             choice = select;
             break;
         }
@@ -375,8 +376,8 @@ void Roulette::numbers(){
     std::cin>>bet;
     if(bet > money){
         std::cout<<"\nYou don't have enough money to bet that much"<<std::endl;
-        std::cout<<"Enter your bet : ";
-        std:;cin>>bet;
+        std::cout<<"\nEnter your bet : ";
+        std::cin>>bet;
     }
     srand(time(NULL));
     random = rand() % (Max - Min + 1) + Min;
@@ -385,105 +386,132 @@ void Roulette::numbers(){
         std::cout<<"\nYou LOSE !";
         std::cout<<"\nYou just lost " << bet <<"$" << std::endl;
         money -= bet;
+        std::cout<<"\nYour current money is " << money << "$" << std::endl; 
     }
     else{
         std::cout<<"\nYou WIN !";
         std::cout<<"\nYou just won " << bet <<"$" << std::endl;
         money += bet;
+        std::cout<<"\nYour current money is " << money << "$" << std::endl;
     }
 
-    cout << "Do you want to stop, yes[Y] or no[N]?";
-    cin >> stop;
-    if(stop == "Y"){
-        Menu();
-    }
-    else if(stop == "N"){
-        numbers();
+    std::cout << "Do you want to stop, yes[Y] or no[N]?";
+    std::cin >> stop;
+    switch(stop){
+        case 'Y':
+            Menu();
+            break;
+        case 'N':
+            numbers();
+            break;
     }
 }
 
 void Roulette::even_odd(){
-    char *choice3;
+    char choice3;
     std::cout<<"\nYou choose EVEN or ODD ?";
     std::cin>>choice3;
     std::cout<<"\nEnter your bet : ";
     std::cin>>bet;
+    if(bet > money){
+        std::cout<<"\nYou don't have enough money to bet that much"<<std::endl;
+        std::cout<<"\nEnter your bet : ";
+        std::cin>>bet;
+    }
     srand(time(NULL));
     random = rand() % (Max - Min + 1) + Min;
     std::cout<<"\nThe ball land on " << random << "\n" << std::endl;
-    if(choice3 == "e" || choice3 == "E"){
-        if(2*(random/2) == random){
-            std::cout<<"\nYou WIN !";
-            std::cout<<"\nYou just won " << bet << "$" << std::endl;
-            money += bet;
-        }
-        else{
-            std::cout<<"\nYou LOSE !";
-            std::cout<<"\nYou just lost " << bet << "$" << std::endl;
-            money -= bet;
-        }
+    switch(choice3){
+        case 'E':
+            if(2*(random/2) == random){
+                std::cout<<"\nYou WIN !";
+                std::cout<<"\nYou just won " << bet << "$" << std::endl;
+                money += bet;
+                std::cout<<"\nYour current money is " << money << "$" << std::endl;
+            }
+            else{
+                std::cout<<"\nYou LOSE !";
+                std::cout<<"\nYou just lost " << bet << "$" << std::endl;
+                money -= bet;
+                std::cout<<"\nYour current money is " << money << "$" << std::endl;
+            }
+        case 'O':
+            if(2*(random/2) == random){
+                std::cout<<"\nYou LOSE !";
+                std::cout<<"\nYou just lost " << bet << "$" << std::endl;
+                money -= bet;
+                std::cout<<"\nYour current money is " << money << "$" << std::endl;
+            }
+            else{
+                std::cout<<"\nYou WIN !";
+                std::cout<<"\nYou just won " << bet << "$" << std::endl;
+                money += bet;
+                std::cout<<"\nYour current money is " << money << "$" << std::endl;
+            }   
     }
-    if(choice3 == "o" || choice3 == "O"){
-        if(2*(random/2) == random){
-            std::cout<<"\nYou LOSE !";
-            std::cout<<"\nYou just lost " << bet << "$" << std::endl;
-            money -= bet;
-        }
-        else{
-            std::cout<<"\nYou WIN !";
-            std::cout<<"\nYou just won " << bet << "$" << std::endl;
-            money += bet;
-        }
-    }
-    cout << "Do you want to stop, yes[Y] or no[N]?";
-    cin >> stop;
-    if(stop == "Y"){
-        Menu();
-    }
-    else if(stop == "N"){
-        even_odd();
+    std::cout << "Do you want to stop, yes[Y] or no[N]?";
+    std::cin >> stop;
+    switch(stop){
+        case 'Y':
+            Menu();
+            break;
+        case 'N':
+            even_odd();
+            break;
     }
 }
 
 void Roulette::color(){
-    char *choice4;
+    char choice4;
+    std::cout<<"\nYou choose BLACK or RED ?";
     std::cin>>choice4;
     std::cout<<"\nEnter your bet : ";
     std::cin>>bet;
+    if(bet > money){
+        std::cout<<"\nYou don't have enough money to bet that much"<<std::endl;
+        std::cout<<"\nEnter your bet : ";
+        std::cin>>bet;
+    }
     srand(time(NULL));
     random = rand() % (Max - Min + 1) + Min;
     std::cout<<"\nThe ball land on " << random << std::endl;
-    if(choice4 == "b" || choice4 == "B"){
-        if (random == 2 || random == 4 || random == 6 || random == 8 || random == 10 || random == 11 || random == 13 || random == 15 || random == 17 || random == 20 || random == 22 || random == 24 || random == 26 || random == 28 || random == 29 || random == 31 || random == 33 || random == 35){
-            std::cout<<"\nYou WIN !";
-            std::cout<<"\nYou just won " << bet << "$" << std::endl;
-            money += bet;
-        }
-        else{
-            std::cout<<"\nYou LOSE !";
-            std::cout<<"\nYou just lost " << bet << "$" << std::endl;
-            money -= bet;
-        }
+    switch(choice4){
+        case 'B':
+            if (random == 2 || random == 4 || random == 6 || random == 8 || random == 10 || random == 11 || random == 13 || random == 15 || random == 17 || random == 20 || random == 22 || random == 24 || random == 26 || random == 28 || random == 29 || random == 31 || random == 33 || random == 35){
+                std::cout<<"\nYou WIN !";
+                std::cout<<"\nYou just won " << bet << "$" << std::endl;
+                money += bet;
+                std::cout<<"\nYour current money is " << money << "$" << std::endl;
+            }
+            else{
+                std::cout<<"\nYou LOSE !";
+                std::cout<<"\nYou just lost " << bet << "$" << std::endl;
+                money -= bet;
+                std::cout<<"\nYour current money is " << money << "$" << std::endl;
+            }
+        case 'R':
+            if (random == 2 || random == 4 || random == 6 || random == 8 || random == 10 || random == 11 || random == 13 || random == 15 || random == 17 || random == 20 || random == 22 || random == 24 || random == 26 || random == 28 || random == 29 || random == 31 || random == 33 || random == 35){
+                std::cout<<"\nYou LOSE !";
+                std::cout<<"\nYou just lost " << bet << "$" << std::endl;
+                money -= bet;
+                std::cout<<"\nYour current money is " << money << "$" << std::endl;
+            }
+            else{
+                std::cout<<"\nYou WIN !";
+                std::cout<<"\nYou just won " << bet << "$" << std::endl;
+                money += bet;
+                std::cout<<"\nYour current money is " << money << "$" << std::endl;
+            }
     }
-    if(choice4 == "r" || choice4 == "R"){
-        if (random == 2 || random == 4 || random == 6 || random == 8 || random == 10 || random == 11 || random == 13 || random == 15 || random == 17 || random == 20 || random == 22 || random == 24 || random == 26 || random == 28 || random == 29 || random == 31 || random == 33 || random == 35){
-            std::cout<<"\nYou LOSE !";
-            std::cout<<"\nYou just lost " << bet << "$" << std::endl;
-            money -= bet;
-        }
-        else{
-            std::cout<<"\nYou WIN !";
-            std::cout<<"\nYou just won " << bet << "$" << std::endl;
-            money += bet;
-        }
-    }
-    cout << "Do you want to stop, yes[Y] or no[N]?";
-    cin >> stop;
-    if(stop == "Y"){
-        Menu();
-    }
-    else if(stop == "N"){
-        color();
+    std::cout << "Do you want to stop, yes[Y] or no[N]?";
+    std::cin >> stop;
+    switch(stop){
+        case 'Y':
+            Menu();
+            break;
+        case 'N':
+            color();
+            break;
     }
 }
 

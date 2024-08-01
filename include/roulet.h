@@ -18,10 +18,11 @@ class Roulette{
         int const Min = 1, Max = 36;
         int number, random;
         double money = 200, bet;
-        char *stop;
+        char stop;
+        
     public:
         Roulette();
-        Roulette(int N);
+        //Roulette(int N);
         ~Roulette();
 
         void Menu();

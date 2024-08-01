@@ -10,7 +10,7 @@ int main(){
   
   srand(time(0));
 
-  Roulette *initRoulette = new Roulette(1);
+  Roulette *initRoulette = new Roulette();
 
   return 0;
 }
